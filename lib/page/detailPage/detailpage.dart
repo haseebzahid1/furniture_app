@@ -34,60 +34,65 @@ class DetailsScreen extends StatelessWidget {
           ),
         ],
       ),
-      body: Container(
-        width: double.infinity,
-        padding: EdgeInsets.symmetric(horizontal: kDefaultPadding),
-        decoration: BoxDecoration(
-          color: kBackgroundColor,
-          borderRadius: BorderRadius.only(
-            bottomLeft: Radius.circular(50),
-            bottomRight: Radius.circular(50),
+      body: SingleChildScrollView(
+        child: Container(
+          width: double.infinity,
+          padding: EdgeInsets.symmetric(horizontal: kDefaultPadding),
+          decoration: const BoxDecoration(
+            color: kBackgroundColor,
+            borderRadius: BorderRadius.only(
+              bottomLeft: Radius.circular(50),
+              bottomRight: Radius.circular(50),
+            ),
           ),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Center(
-              child: Hero(
-                tag: '${product.id}',
-                child: ProductPoster(
-                  size: size,
-                  image: product.image,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Center(
+                child: Hero(
+                  tag: '${product.id}',
+                  child: productPoster(
+                    size: size,
+                    image: product.image,
+                  ),
                 ),
               ),
-            ),
-            listOfColor(),
-            Padding(
-              padding:
-                  const EdgeInsets.symmetric(vertical: kDefaultPadding / 2),
-              child: Text(
-                product.title,
-                style: Theme.of(context).textTheme.headline6,
+              listOfColor(),
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: kDefaultPadding / 2),
+                child: Text(
+                  product.title,
+                  style: Theme.of(context).textTheme.headline6,
+                ),
               ),
-            ),
-            Text(
-              '\$${product.price}',
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.w600,
-                color: kSecondaryColor,
+              Text(
+                '\$${product.price}',
+                style: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w600,
+                  color: kSecondaryColor,
+                ),
               ),
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(vertical: kDefaultPadding / 2),
-              child: Text(
-                product.description,
-                style: TextStyle(color: kTextLightColor),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: kDefaultPadding / 2),
+                child: Text(
+                  product.description,
+                  style: TextStyle(color: kTextLightColor),
+                ),
               ),
-            ),
-            SizedBox(height: kDefaultPadding),
-          ],
+              const SizedBox(height: kDefaultPadding),
+              chatAndAddToCart(),
+              SizedBox(height: 20,),
+            ],
+          ),
         ),
       ),
+
     );
   }
 
-  Widget ProductPoster({required Size size, required String image}) {
+  Widget productPoster({required Size size, required String image}) {
     return Container(
       margin: EdgeInsets.symmetric(vertical: kDefaultPadding),
       // the height of this container is 80% of our width
@@ -99,7 +104,7 @@ class DetailsScreen extends StatelessWidget {
           Container(
             height: size.width * 0.7,
             width: size.width * 0.7,
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               color: Colors.white,
               shape: BoxShape.circle,
             ),
@@ -120,14 +125,14 @@ class DetailsScreen extends StatelessWidget {
     return Container(
       margin:
           // left and right padding 8
-          EdgeInsets.symmetric(horizontal: kDefaultPadding / 2.5),
-      padding: EdgeInsets.all(3),
+          const EdgeInsets.symmetric(horizontal: kDefaultPadding / 2.5),
+      padding: const EdgeInsets.all(3),
       height: 24,
       width: 24,
       decoration: BoxDecoration(
         shape: BoxShape.circle,
         border: Border.all(
-          color: isSelected ? Color(0xFF707070) : Colors.transparent,
+          color: isSelected ? const Color(0xFF707070) : Colors.transparent,
         ),
       ),
       child: Container(
@@ -154,6 +159,47 @@ class DetailsScreen extends StatelessWidget {
           colorDot(
             fillColor: kPrimaryColor,
           ),
+        ],
+      ),
+    );
+  }
+  Widget chatAndAddToCart(){
+    return Container(
+      // margin: EdgeInsets.all(14),
+      padding: const EdgeInsets.symmetric(
+        horizontal: kDefaultPadding,
+        vertical: 15,
+      ),
+      decoration: BoxDecoration(
+        color: Color(0xFFFCBF1E),
+        borderRadius: BorderRadius.circular(30),
+      ),
+      child: Row(
+        children: <Widget>[
+          SvgPicture.asset(
+            "assets/icons/chat.svg",
+            height: 18,
+          ),
+          const SizedBox(width: kDefaultPadding / 2),
+          Text(
+            "Chat",
+            style: TextStyle(color: Colors.white),
+          ),
+          const Spacer(),
+          // it will cover all available spaces
+          GestureDetector(
+            onTap: (){
+              print("ok");
+            },
+            child: Row(
+              children: [
+                Text("Add to Cart",style: TextStyle(color: Colors.white),) ,
+                SizedBox(width: 10,),
+                SvgPicture.asset("assets/icons/shopping-bag.svg",height: 18,)
+              ],
+            ),
+          ),
+
         ],
       ),
     );
